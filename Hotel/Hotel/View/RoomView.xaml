@@ -1,0 +1,348 @@
+﻿<UserControl x:Class="Hotel.View.RoomView"
+             x:Name="RoomV"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:local="clr-namespace:Hotel.View"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:vm="clr-namespace:Hotel.ViewModel"
+             mc:Ignorable="d"
+             d:DesignHeight="450"
+             d:DesignWidth="800"
+             Style="{StaticResource Page_Style}">
+    <UserControl.DataContext>
+        <vm:RoomViewModel />
+    </UserControl.DataContext>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadIdStaff}"
+                                   CommandParameter="{Binding ElementName=RoomV}" />
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <Grid Background="White">
+        <!--Chia khung-->
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+
+        <!--Color Zone-->
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="100" />
+            </Grid.ColumnDefinitions>
+            <materialDesign:ColorZone Grid.Column="0"
+                                      Height="45"
+                                      Mode="PrimaryMid"
+                                      Padding="0 6 0 0"
+                                      Background="Transparent">
+                <DockPanel>
+                    <StackPanel Grid.Column="0"
+                                Orientation="Horizontal"
+                                materialDesign:RippleAssist.IsCentered="True">
+                        <!--Search box-->
+                        <materialDesign:ColorZone Mode="Standard"
+                                                  Padding="8 0 8 0"
+                                                  CornerRadius="5"
+                                                  Panel.ZIndex="1"
+                                                  Margin="16 0 0 0"
+                                                  materialDesign:ShadowAssist.ShadowDepth="Depth1">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+
+                                    <ColumnDefinition Width="208" />
+
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0"
+                                        Grid.Row="0"
+                                        Style="{DynamicResource MaterialDesignToolButton}">
+                                    <materialDesign:PackIcon Kind="AccountSearch"
+                                                             Opacity=".56" />
+                                </Button>
+                                <TextBox Grid.Column="1"
+                                         x:Name="txtSearch"
+                                         FontSize="16"
+                                         Margin="8 0 0 0"
+                                         materialDesign:HintAssist.Hint="Tìm phòng"
+                                         FontFamily="{StaticResource Vollkorn}"
+                                         materialDesign:TextFieldAssist.DecorationVisibility="Hidden"
+                                         BorderThickness="0"
+                                         MinWidth="200"
+                                         VerticalAlignment="Center"
+                                         Text="{Binding TextToFilter, UpdateSourceTrigger=PropertyChanged}" />
+
+                            </Grid>
+                        </materialDesign:ColorZone>
+                        <!--Button Search-->
+                        <Button VerticalAlignment="Center"
+                                Padding="0"
+                                Margin="0 0 0 8"
+                                Width="55"
+                                Height="30"
+                                Background="Transparent"
+                                BorderThickness="0">
+                            <materialDesign:PackIcon Kind="Send"
+                                                     Width="30"
+                                                     Height="30"
+                                                     Foreground="Black"
+                                                     Opacity="0.7" />
+                        </Button>
+                    </StackPanel>
+
+                </DockPanel>
+                <!--Ô trạng thái-->
+            </materialDesign:ColorZone>
+            <Grid Grid.Column="1"
+                  HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Grid Grid.Column="0">
+                    <TextBlock FontWeight="Bold"
+                               Text="Trạng thái"
+                               FontFamily="{StaticResource Quicksand}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="10">
+
+                    </TextBlock>
+                </Grid>
+                <Grid Grid.Column="1">
+                    <RadioButton x:Name="rbtnAll"
+                                 Content="Tất cả"
+                                 FontFamily="{StaticResource Quicksand}"
+                                 Style="{StaticResource MaterialDesignRadioButton}"
+                                 Margin="10"
+                                 GroupName="Status"
+                                 IsChecked="True"
+                                 Command="{Binding btnAll}">
+
+
+                    </RadioButton>
+
+                </Grid>
+                <Grid Grid.Column="2">
+                    <RadioButton x:Name="rbtnAvai"
+                                 Content="Trống"
+                                 FontFamily="{StaticResource Quicksand}"
+                                 Style="{StaticResource MaterialDesignRadioButton}"
+                                 Margin="10"
+                                 GroupName="Status"
+                                 Command="{Binding btnAvailabel}">
+
+                    </RadioButton>
+
+                </Grid>
+                <Grid Grid.Column="3">
+                    <RadioButton x:Name="rbtnBook"
+                                 Content="Đã đặt"
+                                 FontFamily="{StaticResource Quicksand}"
+                                 Style="{StaticResource MaterialDesignRadioButton}"
+                                 Margin="10"
+                                 GroupName="Status"
+                                 Command="{Binding btnOrdered}">
+
+                    </RadioButton>
+
+                </Grid>
+                <Grid Grid.Column="4">
+                    <RadioButton x:Name="rbtnRepair"
+                                 Content="Tu sửa"
+                                 FontFamily="{StaticResource Quicksand}"
+                                 Style="{StaticResource MaterialDesignRadioButton}"
+                                 Margin="10"
+                                 GroupName="Status"
+                                 Command="{Binding btnRepair}">
+
+                    </RadioButton>
+
+                </Grid>
+            </Grid>
+            <!--Sắp xếp-->
+            <Grid Grid.Column="2"
+                  Margin="10">
+                <ComboBox Name="cbType"
+                          Grid.Column="2"
+                          materialDesign:HintAssist.Hint="Sắp xếp"
+                          Width="80"
+                          FontFamily="{StaticResource Quicksand}"
+                          HorizontalAlignment="Right"
+                          SelectedItem="{Binding SortRoom, Mode=OneWayToSource}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding sortRoom}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ComboBoxItem Content="Tầng" />
+                    <ComboBoxItem Content="Loại phòng" />
+                </ComboBox>
+            </Grid>
+        </Grid>
+        <!--Hiện thông tin phòng-->
+        <Grid Grid.Row="1"
+              Grid.Column="0"
+              Width="auto"
+              HorizontalAlignment="Center">
+            <ScrollViewer>
+                <StackPanel>
+                    <ItemsControl x:Name="lvRoom"
+                                  ItemsSource="{Binding RoomCollection}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button x:Name="ButtonRoom"
+                                        Width="170"
+                                        Height="100"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Margin="10"
+                                        Command="{Binding ElementName=lvRoom, Path=DataContext.choseRoom}"
+                                        CommandParameter="{Binding}"
+                                        RenderTransformOrigin="0.5,0.5">
+                                    <Button.Resources>
+                                        <Style x:Key="ScaleStyle"
+                                               TargetType="Grid">
+                                            <Style.Triggers>
+                                                <Trigger Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter Property="Grid.ZIndex"
+                                                            Value="1" />
+                                                    <Setter Property="RenderTransform">
+                                                        <Setter.Value>
+                                                            <ScaleTransform ScaleX="1.1"
+                                                                            ScaleY="1.1" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </Button.Resources>
+                                    <Button.Style>
+                                        <Style TargetType="Button"
+                                               BasedOn="{StaticResource MaterialDesignRaisedAccentButton}">
+                                            <Setter Property="Background"
+                                                    Value="#99ff99" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding Status}"
+                                                             Value="Đã đặt">
+                                                    <Setter Property="Background"
+                                                            Value="#ffff99">
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}"
+                                                             Value="Tu sửa">
+                                                    <Setter Property="Background"
+                                                            Value="#ffcc99">
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding Status}"
+                                                             Value="Đang sử dụng">
+                                                    <Setter Property="Background"
+                                                            Value="#004400">
+                                                    </Setter>
+                                                </DataTrigger>
+                                                <Trigger Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter Property="Width"
+                                                            Value="180" />
+                                                    <Setter Property="Height"
+                                                            Value="110" />
+                                                </Trigger>
+                                                <Trigger Property="IsMouseOver"
+                                                         Value="True">
+                                                    <Setter Property="Grid.ZIndex"
+                                                            Value="1" />
+                                                    <Setter Property="RenderTransform">
+                                                        <Setter.Value>
+                                                            <ScaleTransform ScaleX="1.1"
+                                                                            ScaleY="1.1" />
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Trigger>
+                                            </Style.Triggers>
+                                        </Style>
+
+                                    </Button.Style>
+
+                                    <Grid Margin="-20 0 0 0"
+                                          Width="170"
+                                          Height="100"
+                                          x:Name="gridName"
+                                          Background="Transparent"
+                                          Style="{StaticResource ScaleStyle}"
+                                          RenderTransformOrigin="0.5,0.5">
+
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="55" />
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <Grid Grid.Row="0">
+                                            <TextBlock Text="{Binding Name}"
+                                                       HorizontalAlignment="Left"
+                                                       VerticalAlignment="Center"
+                                                       Margin="18 30 0 0"
+                                                       FontSize="20"
+                                                       Foreground="#6C7EE1"
+                                                       FontWeight="Bold"
+                                                       FontFamily="Serif" />
+                                            <TextBlock Text="{Binding Description}"
+                                                       HorizontalAlignment="Right"
+                                                       VerticalAlignment="Center"
+                                                       Margin="0 0 14 30"
+                                                       FontSize="11"
+                                                       Foreground="#F28073"
+                                                       FontStyle="Italic"
+                                                       FontFamily="Script" />
+                                        </Grid>
+                                        <Grid Grid.Row="1">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="10"></ColumnDefinition>
+                                                <ColumnDefinition></ColumnDefinition>
+                                            </Grid.ColumnDefinitions>
+
+                                            <Grid Grid.Column="1">
+                                                <TextBlock HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"
+                                                           FontSize="20"
+                                                           Foreground="#C49A68"
+                                                           FontFamily="Corsiva"
+                                                           FontWeight="Bold">
+                                                    <TextBlock.Style>
+                                                        <Style TargetType="TextBlock">
+                                                            <Setter Property="Text"
+                                                                    Value="{Binding Status}" />
+                                                        </Style>
+                                                    </TextBlock.Style>
+                                                </TextBlock>
+                                            </Grid>
+                                        </Grid>
+                                    </Grid>
+                                </Button>
+                            </DataTemplate>
+
+                        </ItemsControl.ItemTemplate>
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <WrapPanel />
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</UserControl>

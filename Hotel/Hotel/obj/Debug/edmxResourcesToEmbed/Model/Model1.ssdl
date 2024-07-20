@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="QLYHOTELModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="CUNGCAP">
+    <Key>
+      <PropertyRef Name="MACC" />
+    </Key>
+    <Property Name="MACC" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MANV" Type="int" />
+    <Property Name="MADV" Type="int" />
+    <Property Name="MADAT" Type="int" />
+    <Property Name="SOLUONG" Type="int" />
+    <Property Name="TONGTIEN" Type="int" />
+  </EntityType>
+  <EntityType Name="DAT">
+    <Key>
+      <PropertyRef Name="MADAT" />
+    </Key>
+    <Property Name="MADAT" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MANV" Type="int" />
+    <Property Name="MAKH" Type="int" />
+    <Property Name="MAPHONG" Type="int" />
+    <Property Name="SONG" Type="int" />
+    <Property Name="NGAYDAT" Type="smalldatetime" />
+    <Property Name="NGAYTRA" Type="smalldatetime" />
+    <Property Name="TRANGTHAI" Type="nvarchar" MaxLength="100" />
+    <Property Name="THANHTIEN" Type="int" />
+  </EntityType>
+  <EntityType Name="DICHVU">
+    <Key>
+      <PropertyRef Name="MADV" />
+    </Key>
+    <Property Name="MADV" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TENDV" Type="nvarchar" MaxLength="100" />
+    <Property Name="DONGIA" Type="int" />
+    <Property Name="IsDelete" Type="int" />
+  </EntityType>
+  <EntityType Name="KHACH">
+    <Key>
+      <PropertyRef Name="MAKH" />
+    </Key>
+    <Property Name="MAKH" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CCCD" Type="varchar" MaxLength="20" />
+    <Property Name="TENKH" Type="nvarchar" MaxLength="100" />
+    <Property Name="SDT" Type="varchar" MaxLength="20" />
+    <Property Name="DCHI" Type="nvarchar" MaxLength="100" />
+    <Property Name="GIOITINH" Type="nvarchar" MaxLength="20" />
+  </EntityType>
+  <EntityType Name="NHANVIEN">
+    <Key>
+      <PropertyRef Name="MANV" />
+    </Key>
+    <Property Name="MANV" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TAIKHOAN" Type="varchar" MaxLength="100" />
+    <Property Name="MATKHAU" Type="varchar" MaxLength="100" />
+    <Property Name="TENNV" Type="nvarchar" MaxLength="100" />
+    <Property Name="CCCD" Type="varchar" MaxLength="20" />
+    <Property Name="LOAINV" Type="int" />
+    <Property Name="SDT" Type="varchar" MaxLength="20" />
+    <Property Name="NGSINH" Type="date" />
+    <Property Name="LUONG" Type="int" />
+    <Property Name="CHECKIN" Type="datetime" />
+    <Property Name="SONGAYLV" Type="int" />
+  </EntityType>
+  <EntityType Name="PHONG">
+    <Key>
+      <PropertyRef Name="MAPHONG" />
+    </Key>
+    <Property Name="MAPHONG" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TENPHONG" Type="varchar" MaxLength="20" />
+    <Property Name="LOAIPHONG" Type="nvarchar" MaxLength="20" />
+    <Property Name="TRANGTHAI" Type="nvarchar" MaxLength="20" />
+    <Property Name="DONGIA" Type="int" />
+  </EntityType>
+  <Association Name="CC_DV">
+    <End Role="DICHVU" Type="Self.DICHVU" Multiplicity="0..1" />
+    <End Role="CUNGCAP" Type="Self.CUNGCAP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DICHVU">
+        <PropertyRef Name="MADV" />
+      </Principal>
+      <Dependent Role="CUNGCAP">
+        <PropertyRef Name="MADV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CC_MD">
+    <End Role="DAT" Type="Self.DAT" Multiplicity="0..1" />
+    <End Role="CUNGCAP" Type="Self.CUNGCAP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="DAT">
+        <PropertyRef Name="MADAT" />
+      </Principal>
+      <Dependent Role="CUNGCAP">
+        <PropertyRef Name="MADAT" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CC_NV">
+    <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="0..1" />
+    <End Role="CUNGCAP" Type="Self.CUNGCAP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NHANVIEN">
+        <PropertyRef Name="MANV" />
+      </Principal>
+      <Dependent Role="CUNGCAP">
+        <PropertyRef Name="MANV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DA_KH">
+    <End Role="KHACH" Type="Self.KHACH" Multiplicity="0..1" />
+    <End Role="DAT" Type="Self.DAT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="KHACH">
+        <PropertyRef Name="MAKH" />
+      </Principal>
+      <Dependent Role="DAT">
+        <PropertyRef Name="MAKH" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DA_NV">
+    <End Role="NHANVIEN" Type="Self.NHANVIEN" Multiplicity="0..1" />
+    <End Role="DAT" Type="Self.DAT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NHANVIEN">
+        <PropertyRef Name="MANV" />
+      </Principal>
+      <Dependent Role="DAT">
+        <PropertyRef Name="MANV" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DA_PH">
+    <End Role="PHONG" Type="Self.PHONG" Multiplicity="0..1" />
+    <End Role="DAT" Type="Self.DAT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="PHONG">
+        <PropertyRef Name="MAPHONG" />
+      </Principal>
+      <Dependent Role="DAT">
+        <PropertyRef Name="MAPHONG" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="QLYHOTELModelStoreContainer">
+    <EntitySet Name="CUNGCAP" EntityType="Self.CUNGCAP" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DAT" EntityType="Self.DAT" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="DICHVU" EntityType="Self.DICHVU" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="KHACH" EntityType="Self.KHACH" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NHANVIEN" EntityType="Self.NHANVIEN" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="PHONG" EntityType="Self.PHONG" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="CC_DV" Association="Self.CC_DV">
+      <End Role="DICHVU" EntitySet="DICHVU" />
+      <End Role="CUNGCAP" EntitySet="CUNGCAP" />
+    </AssociationSet>
+    <AssociationSet Name="CC_MD" Association="Self.CC_MD">
+      <End Role="DAT" EntitySet="DAT" />
+      <End Role="CUNGCAP" EntitySet="CUNGCAP" />
+    </AssociationSet>
+    <AssociationSet Name="CC_NV" Association="Self.CC_NV">
+      <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+      <End Role="CUNGCAP" EntitySet="CUNGCAP" />
+    </AssociationSet>
+    <AssociationSet Name="DA_KH" Association="Self.DA_KH">
+      <End Role="KHACH" EntitySet="KHACH" />
+      <End Role="DAT" EntitySet="DAT" />
+    </AssociationSet>
+    <AssociationSet Name="DA_NV" Association="Self.DA_NV">
+      <End Role="NHANVIEN" EntitySet="NHANVIEN" />
+      <End Role="DAT" EntitySet="DAT" />
+    </AssociationSet>
+    <AssociationSet Name="DA_PH" Association="Self.DA_PH">
+      <End Role="PHONG" EntitySet="PHONG" />
+      <End Role="DAT" EntitySet="DAT" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
